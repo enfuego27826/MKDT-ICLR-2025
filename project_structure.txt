@@ -1,0 +1,53 @@
+mkdt_ssl_distillation/
+├── configs/                   # YAML/JSON config files for reproducibility
+│   ├── cifar100_mkdt.yaml
+│   └── simclr_teacher.yaml
+│
+├── data/                      # Dataset loading, augmentations, and subset selection
+│   ├── dataloader.py
+│   ├── augmentations.py
+│   └── subset_selector.py
+│
+├── models/                    # Architecture definitions
+│   ├── convnet.py             # Student model
+│   ├── resnet.py              # Teacher model
+│   └── builder.py             # Factory to build models from config
+│
+├── losses/                   # SSL loss (BarlowTwins, SimCLR), KD loss, LDD loss
+│   ├── barlow_twins.py
+│   ├── simclr.py
+│   ├── kd_loss.py
+│   └── ldd_loss.py
+│
+├── distillation/             # MKDT core implementation
+│   ├── train_teacher_ssl.py  # Step 1: SSL pretraining
+│   ├── train_student_kd.py   # Step 2: Student via KD + Save Trajectories
+│   ├── mkdt_distill.py       # Step 3: MKDT distillation loop (Algorithm 1)
+│   └── match_utils.py        # LDD metric, checkpoint comparison
+│
+├── training/                 # Training utilities & evaluation
+│   ├── trainer.py            # Generic training loop
+│   ├── probe.py              # Linear probe evaluation
+│   └── scheduler.py          # LR scheduler utils
+│
+├── utils/                    # Reproducibility, logging, checkpointing
+│   ├── logger.py
+│   ├── seeding.py
+│   ├── checkpoints.py
+│   └── visualizer.py
+│
+├── experiments/              # Scripts to run specific phases
+│   ├── run_teacher.py
+│   ├── run_student_kd.py
+│   ├── run_mkdt.py
+│   ├── run_probe_eval.py
+│   └── run_ablation.py
+│
+├── results/                  # Output folder for logs, plots, CSVs
+│   ├── logs/
+│   ├── synthetic_data/
+│   └── plots/
+│
+├── main.py                   # Optional CLI entry point
+├── README.md                 # Overview and instructions
+└── requirements.txt          # Dependencies

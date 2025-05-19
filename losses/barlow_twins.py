@@ -19,6 +19,6 @@ class BarlowTwins(nn.Module):
         c = (z1_norm.T @ z2_norm)/N
 
         on_diag = torch.diagonal(c).add_(-1).pow_(2).sum()
-        off_diag = (c ** 2).sum() - torch.diagonal(c).pow_(2).sum()
+        off_diag = off_diagonal(c).pow(2).sum()
         loss = on_diag + self.lambda_bt*off_diag
         return loss  

@@ -1,5 +1,5 @@
-from convnet import ConvNet
-from resnet import ResNet18
+from models.convnet import ConvNet
+from models.resnet import ResNet18
 
 def build_model(name,**kwargs):
     """

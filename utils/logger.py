@@ -21,6 +21,3 @@ class Logger:
     def close(self):
         self.log_file.close()
         self.tb_writer.close()
-
-logger = Logger("runs/ssl_exp1")
-logger.log("Epoch 0: Loss = 0.3521", step=0,tag="loss")

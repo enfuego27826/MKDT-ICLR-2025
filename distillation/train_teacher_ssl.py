@@ -31,6 +31,9 @@ def train_teacher_ssl(config):
     optimizer = torch.optim.Adam(model.parameters(),lr=config["lr"],weight_decay=config["weight_decay"])
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,T_max=config["epochs"])
 
+    all_trainable = all(p.requires_grad for p in model.parameters())
+    print("All parameters require grad:", all_trainable)
+    
     model.train()
     for epoch in range(config["epochs"]):
         total_loss = 0.0
@@ -51,6 +54,9 @@ def train_teacher_ssl(config):
 
         avg_loss = total_loss/len(train_loader)
         logger.log(f"Epoch {epoch+1}: Loss = {avg_loss:.4f}", step=epoch, tag="ssl/loss")
+        logger.log(f"{scheduler.get_last_lr()[0]:.6f}", step=epoch, tag="ssl/lr")
+
+
         scheduler.step()
 
         ckpt_path = os.path.join(config["save_dir"], f"teacher_epoch_{epoch+1}.pth")
@@ -67,11 +73,11 @@ def train_teacher_ssl(config):
 config = {
     "dataset": "cifar100",
     "data_path": "./data",
-    "batch_size": 64,
+    "batch_size": 512,
     "lambda_bt": 5e-3,
     "lr": 0.01,
     "weight_decay": 1e-6,
-    "epochs": 1,
+    "epochs": 300,
     "save_dir": "./checkpoints/teacher_ssl",
     "seed": 42
 }
